@@ -36,6 +36,7 @@ namespace AATool
         {
             //constant settings paths
             public const string ConfigFolder = "config/";
+            public const string DefaultConfigFolder = "config.defaults/";
             public const string LegacySettingsFolder = "settings/";
             public const string ArchivedConfigFolder = "config/legacy_settings_(unused)/";
             public const string NotesFolder  = "notes/";

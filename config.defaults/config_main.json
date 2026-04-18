@@ -1,0 +1,113 @@
+{
+  "FpsCap": {
+    "Value": 60
+  },
+  "DisplayScale": {
+    "Value": 1
+  },
+  "AllowUserResizing": {
+    "Value": false
+  },
+  "HideCompletedAdvancements": {
+    "Value": false
+  },
+  "HideCompletedCriteria": {
+    "Value": false
+  },
+  "ShowBasicAdvancements": {
+    "Value": true
+  },
+  "ShowAmbientGlow": {
+    "Value": true
+  },
+  "ShowMyBadge": {
+    "Value": true
+  },
+  "RainbowMode": {
+    "Value": false
+  },
+  "CloseFramesOnSelection": {
+    "Value": true
+  },
+  "Layout": {
+    "Value": "relaxed"
+  },
+  "LayoutDebugMode": {
+    "Value": false
+  },
+  "CacheDebugMode": {
+    "Value": false
+  },
+  "HideRenderCache": {
+    "Value": false
+  },
+  "HideGlowEffects": {
+    "Value": false
+  },
+  "FrameStyle": {
+    "Value": "Modern"
+  },
+  "PrideFrameList": {
+    "Value": ""
+  },
+  "ProgressBarStyle": {
+    "Value": "Modern"
+  },
+  "RefreshIcon": {
+    "Value": "Xp Orb"
+  },
+  "InfoPanel": {
+    "Value": "Leaderboard"
+  },
+  "PreferredPlayerBadge": {
+    "Value": "Default"
+  },
+  "PreferredPlayerFrame": {
+    "Value": "Default"
+  },
+  "BackColor": {
+    "Value": {
+      "B": 63,
+      "G": 57,
+      "R": 54,
+      "A": 255
+    }
+  },
+  "TextColor": {
+    "Value": {
+      "B": 222,
+      "G": 221,
+      "R": 220,
+      "A": 255
+    }
+  },
+  "BorderColor": {
+    "Value": {
+      "B": 86,
+      "G": 81,
+      "R": 78,
+      "A": 255
+    }
+  },
+  "StartupArrangement": {
+    "Value": 0
+  },
+  "LastWindowPosition": {
+    "Value": {
+      "X": 0,
+      "Y": 0
+    }
+  },
+  "StartupDisplay": {
+    "Value": 1
+  },
+  "AlwaysOnTop": {
+    "Value": false
+  },
+  "RenameToNotchApple": {
+    "Value": false
+  },
+  "CompactMode": {
+    "Value": false
+  }
+}

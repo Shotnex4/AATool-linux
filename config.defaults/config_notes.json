@@ -1,0 +1,14 @@
+{
+  "Enabled": {
+    "Value": false
+  },
+  "AlwaysOnTop": {
+    "Value": true
+  },
+  "Width": {
+    "Value": 420
+  },
+  "Height": {
+    "Value": 420
+  }
+}

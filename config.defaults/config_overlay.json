@@ -1,0 +1,253 @@
+{
+  "Enabled": {
+    "Value": false
+  },
+  "ShowLabels": {
+    "Value": true
+  },
+  "ShowCriteria": {
+    "Value": true
+  },
+  "ShowPickups": {
+    "Value": true
+  },
+  "ShowIgt": {
+    "Value": false
+  },
+  "ShowLastRefresh": {
+    "Value": true
+  },
+  "RightToLeft": {
+    "Value": false
+  },
+  "PickupsOpposite": {
+    "Value": false
+  },
+  "LastRefreshOpposite": {
+    "Value": false
+  },
+  "ClarifyAmbiguous": {
+    "Value": true
+  },
+  "Position": {
+    "Value": "Minecraft"
+  },
+  "FrameStyle": {
+    "Value": "Minecraft"
+  },
+  "PrideFrameList": {
+    "Value": ""
+  },
+  "PinnedObjectiveList": {
+    "Value": {
+      "Pinned": {
+        "All Advancements 1.21.6": [
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "HeavyCore",
+          "Sniffers",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.21 v2": [
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "HeavyCore",
+          "Sniffers",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.21": [
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "Sniffers",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.20.5": [
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "Sniffers",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.20 v2": [
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "Sniffers",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.20": [
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap",
+          "ArmorTrims"
+        ],
+        "All Advancements 1.19": [
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.18": [
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.17": [
+          "Cauldrons",
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.16.5": [
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.16": [
+          "AncientDebris",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.15": [
+          "GoldBlocks",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.14": [
+          "Cats",
+          "GoldBlocks",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.13": [
+          "GoldBlocks",
+          "WitherSkulls",
+          "NautilusShells",
+          "Trident",
+          "EGap"
+        ],
+        "All Advancements 1.12": [
+          "GoldBlocks",
+          "WitherSkulls",
+          "Monsters",
+          "Biomes",
+          "EGap"
+        ],
+        "All Achievements 1.11": [
+          "GoldBlocks",
+          "WitherSkulls",
+          "Biomes",
+          "EGap"
+        ],
+        "All Blocks 1.21": [
+          "DeepslateEmerald",
+          "HeavyCore",
+          "WitherSkulls",
+          "ShulkerShells",
+          "NautilusShells",
+          "Trident"
+        ],
+        "All Blocks 1.20": [
+          "AncientDebris",
+          "DeepslateEmerald",
+          "WitherSkulls",
+          "ShulkerShells",
+          "NautilusShells",
+          "Trident"
+        ],
+        "All Blocks 1.19": [
+          "AncientDebris",
+          "DeepslateEmerald",
+          "WitherSkulls",
+          "ShulkerShells",
+          "NautilusShells",
+          "Trident"
+        ],
+        "All Blocks 1.18": [
+          "AncientDebris",
+          "DeepslateEmerald",
+          "WitherSkulls",
+          "ShulkerShells",
+          "NautilusShells",
+          "Trident"
+        ],
+        "All Blocks 1.16": [
+          "AncientDebris",
+          "Mycelium",
+          "WitherSkulls",
+          "ShulkerShells",
+          "NautilusShells",
+          "Trident"
+        ]
+      }
+    }
+  },
+  "Speed": {
+    "Value": 2
+  },
+  "Width": {
+    "Value": 1920
+  },
+  "GreenScreen": {
+    "Value": {
+      "B": 0,
+      "G": 170,
+      "R": 0,
+      "A": 255
+    }
+  },
+  "CustomTextColor": {
+    "Value": {
+      "B": 255,
+      "G": 255,
+      "R": 255,
+      "A": 255
+    }
+  },
+  "CustomBackColor": {
+    "Value": {
+      "B": 255,
+      "G": 255,
+      "R": 255,
+      "A": 255
+    }
+  },
+  "CustomBorderColor": {
+    "Value": {
+      "B": 255,
+      "G": 255,
+      "R": 255,
+      "A": 255
+    }
+  },
+  "StartupArrangement": {
+    "Value": 2
+  },
+  "LastWindowPosition": {
+    "Value": {
+      "X": 0,
+      "Y": 0
+    }
+  },
+  "StartupDisplay": {
+    "Value": 1
+  }
+}

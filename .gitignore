@@ -344,3 +344,6 @@ healthchecksdb
 AATool/compiled
 assets/cache
 logs
+config/*
+!config.defaults/
+!config.defaults/**

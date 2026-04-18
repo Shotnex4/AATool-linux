@@ -1,0 +1,23 @@
+{
+  "Host": {
+    "Value": ""
+  },
+  "Username": {
+    "Value": ""
+  },
+  "Password": {
+    "Value": ""
+  },
+  "Port": {
+    "Value": 22
+  },
+  "AutoSaveMinutes": {
+    "Value": 5
+  },
+  "Linux": {
+    "Value": false
+  },
+  "ServerRoot": {
+    "Value": ""
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "MinecraftName": {
+    "Value": ""
+  },
+  "PreferredName": {
+    "Value": ""
+  },
+  "Pronouns": {
+    "Value": ""
+  },
+  "Password": {
+    "Value": ""
+  },
+  "IP": {
+    "Value": ""
+  },
+  "Port": {
+    "Value": 25562
+  },
+  "AutoServerIP": {
+    "Value": true
+  },
+  "IsServer": {
+    "Value": false
+  }
+}

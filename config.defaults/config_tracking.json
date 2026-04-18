@@ -1,0 +1,62 @@
+{
+  "LastSession": {
+    "Value": "1.8.0.1"
+  },
+  "LastPlayer": {
+    "Value": ""
+  },
+  "LastUuid": {
+    "Value": {
+      "String": "00000000-0000-0000-0000-000000000000",
+      "ShortString": "00000000000000000000000000000000"
+    }
+  },
+  "CurrentRunnerProfileId": {
+    "Value": ""
+  },
+  "CurrentRunnerProfileName": {
+    "Value": ""
+  },
+  "GameCategory": {
+    "Value": "All Advancements"
+  },
+  "GameVersion": {
+    "Value": "1.16"
+  },
+  "AutoDetectVersion": {
+    "Value": true
+  },
+  "UseSftp": {
+    "Value": false
+  },
+  "Source": {
+    "Value": 0
+  },
+  "CustomWorldPath": {
+    "Value": ""
+  },
+  "CustomSavesPath": {
+    "Value": "~/.minecraft/saves"
+  },
+  "ManualChecklistMode": {
+    "Value": false
+  },
+  "Filter": {
+    "Value": 1
+  },
+  "SoloFilterName": {
+    "Value": ""
+  },
+  "BroadcastProgress": {
+    "Value": false
+  },
+  "OpenTrackerKey": {
+    "Value": ""
+  },
+  "OpenTrackerUrl": {
+    "Value": ""
+  },
+  "LastOpenedAllBlocks": {
+    "Value": "0001-01-01T00:00:00"
+  }
+}

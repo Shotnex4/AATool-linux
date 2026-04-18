@@ -79,12 +79,35 @@ namespace AATool.Configuration
             return false;
         }
 
+        private static bool TryBootstrapDefaultConfig(string fileName)
+        {
+            try
+            {
+                string source = Path.Combine(Paths.System.DefaultConfigFolder, fileName);
+                string destination = Path.Combine(Paths.System.ConfigFolder, fileName);
+                if (!File.Exists(source))
+                    return false;
+
+                Directory.CreateDirectory(Paths.System.ConfigFolder);
+                File.Copy(source, destination, overwrite: false);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private static void Load<T>() where T : Config, new()
         {
             T config = null;
             try
             {
-                string file = Path.Combine(Paths.System.ConfigFolder, FileNames[typeof(T)]);
+                string fileName = FileNames[typeof(T)];
+                string file = Path.Combine(Paths.System.ConfigFolder, fileName);
+                if (!File.Exists(file))
+                    _ = TryBootstrapDefaultConfig(fileName);
+
                 using (StreamReader stream = File.OpenText(file))
                 {
                     //deserialize config json
