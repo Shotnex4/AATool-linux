@@ -1,7 +1,13 @@
 # CTM's AATool ➔ [Download Here!](https://github.com/DarwinBaker/AATool/releases/latest)
 # Setup Guide ➔ [Watch Here!](https://www.youtube.com/watch?v=Oc9Uw9M_Yho)
 
-Linux preview for Arch/Hyprland users: see `info/linux-arch.md`.
+## Arch Linux Fork Notice
+
+This repository is an unofficial fork of AATool focused on getting the tracker working well on Arch Linux, especially for Hyprland users.
+
+If you are here for the Linux version, start with the player guide in [info/linux-arch.md](info/linux-arch.md).
+
+The original upstream README content is preserved below.
 
 ![](info/preview_main.png)
 ![](info/preview_all_blocks.png)
