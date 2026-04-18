@@ -4,6 +4,9 @@ using System.Linq;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Graphics;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -161,17 +164,23 @@ namespace AATool.UI.Controls
                     count++;
             }
 
-            var result = System.Windows.Forms.DialogResult.OK;
+            bool confirmed = true;
             if (count > 1)
             {
-                result = System.Windows.Forms.MessageBox.Show(
+#if WINDOWS
+                var result = System.Windows.Forms.MessageBox.Show(
                     $"You are about to clear {count} currently confirmed (green) blocks. You'll have to manually re-confirm them all after making sure they've been placed at your central location. Are you sure you want to perform this action?",
                     $"Clear {count} confirmed blocks",
                     System.Windows.Forms.MessageBoxButtons.OKCancel,
                     System.Windows.Forms.MessageBoxIcon.Warning);
+                confirmed = result is System.Windows.Forms.DialogResult.OK;
+#else
+                confirmed = LinuxRuntime.Confirm("Clear confirmed blocks",
+                    $"You are about to clear {count} currently confirmed (green) blocks.");
+#endif
             }
 
-            if (result is System.Windows.Forms.DialogResult.OK)
+            if (confirmed)
             {
                 foreach (UIBlockTile tile in this.selection)
                 {

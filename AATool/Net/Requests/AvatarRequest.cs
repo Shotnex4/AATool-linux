@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,6 +12,8 @@ namespace AATool.Net.Requests
     public sealed class AvatarRequest : NetRequest
     {
         public static int Downloads { get; private set; }
+
+        private static readonly object AccentLock = new ();
 
         private readonly Uuid id;
         private readonly string name;
@@ -39,6 +41,12 @@ namespace AATool.Net.Requests
                 Debug.Log(Debug.RequestSection, $"{Outgoing} Requested avatar for \"{name}\"");
             else
                 Debug.Log(Debug.RequestSection, $"{Outgoing} Requested avatar for {this.id.ShortString ?? this.name}");
+
+#if LINUX
+            Debug.Log(Debug.RequestSection, $"-- Skipping live avatar download on Linux for {this.id.ShortString ?? this.name}");
+            return true;
+#endif
+
             Downloads++;
             this.BeginTiming();
 
@@ -118,7 +126,10 @@ namespace AATool.Net.Requests
             finally
             {
                 //compute average color for player-specific glow colors
-                Player.Cache(this.id, ColorHelper.GetAccent(texture));
+#if WINDOWS
+                lock (AccentLock)
+                    Player.Cache(this.id, ColorHelper.GetAccent(texture));
+#endif
                 texture?.Dispose();
             }
         }

@@ -10,7 +10,6 @@ using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Renci.SshNet;
-using SharpDX.Win32;
 
 namespace AATool.UI.Badges
 {

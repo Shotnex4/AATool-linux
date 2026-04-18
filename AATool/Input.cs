@@ -40,9 +40,11 @@ namespace AATool
             else
             {
                 //normalize cursor position on secondary windows
+                Point primaryPosition = Main.PrimaryScreen.GetWindowPosition();
+                Point screenPosition = screen.GetWindowPosition();
                 return new Point(
-                    MouseNow.Position.X + Main.PrimaryScreen.Form.Location.X - screen.Form.Location.X,
-                    MouseNow.Position.Y + Main.PrimaryScreen.Form.Location.Y - screen.Form.Location.Y);
+                    MouseNow.Position.X + primaryPosition.X - screenPosition.X,
+                    MouseNow.Position.Y + primaryPosition.Y - screenPosition.Y);
             }
         }
 

@@ -145,7 +145,7 @@ namespace AATool.UI.Controls
             if (!Tracker.IsWorking)
                 return;
 
-            if (Input.LeftClicking && this.Root().Form.Focused)
+            if (Input.LeftClicking && this.Root().HasFocus)
             {
                 Point cursorPosition = Input.Cursor(this.Root());
 

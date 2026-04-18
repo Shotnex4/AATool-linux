@@ -103,10 +103,12 @@ namespace AATool.UI.Controls
 
             this.glowRotation += (float)time.Delta * 0.25f;
             this.pageTimer.Update(time);
-            if (Main.OverlayScreen.FastForwarding)
+#if WINDOWS
+            if (Main.OverlayScreen?.FastForwarding is true)
             {
                 this.pageTimer.TimeLeft -= 20 * time.Delta;
             }
+#endif
 
             if (this.pageTimer.IsExpired)
             {

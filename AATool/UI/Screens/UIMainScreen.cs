@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
@@ -13,11 +12,17 @@ using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 using AATool.UI.Badges;
 using AATool.UI.Controllers;
 using AATool.UI.Controls;
 using AATool.Utilities;
+#if WINDOWS
+using System.Windows.Forms;
 using AATool.Winforms.Forms;
+#endif
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -50,7 +55,9 @@ namespace AATool.UI.Screens
 
         public static void ForceLayoutRefresh() => NeedsLayoutRefresh = true;
 
+#if WINDOWS
         public static FSettings Settings;
+#endif
         public static bool SettingsJustClosed => SettingsCooldown.IsRunning;
 
         private static readonly Utilities.Timer SettingsCooldown = new (0.25f);
@@ -90,9 +97,11 @@ namespace AATool.UI.Screens
         public UIMainScreen(Main main) : base(main, main.Window)
         {
             //set window title
-            this.Form.Text = Main.FullTitle;
+            this.SetWindowTitle(Main.FullTitle);
+#if WINDOWS
             this.Form.FormClosing += this.OnClosing;
             this.Form.TopMost = Config.Main.AlwaysOnTop;
+#endif
             this.checklist = new(this);
         }
 
@@ -108,16 +117,42 @@ namespace AATool.UI.Screens
             SettingsCooldown.Reset();
         }
 
+        private void RememberMainPlayer()
+        {
+            Uuid mainPlayer = Tracker.GetMainPlayer();
+            if (mainPlayer == Uuid.Empty)
+                return;
+
+            Config.Tracking.LastUuid.Set(mainPlayer);
+            if (Player.TryGetName(mainPlayer, out string name))
+            {
+                Config.Tracking.LastPlayer.Set(name);
+                Config.Tracking.TrySave();
+            }
+        }
+
         public void OpenSettingsMenu()
         {
+#if WINDOWS
             if (Settings is null || Settings.IsDisposed)
             {
                 Settings = new FSettings();
                 Settings.Show(this.Form);
             }
+#else
+            LinuxRuntime.ReportUpdate("Settings UI is not available on Linux yet. Edit the JSON files in config/ instead.");
+#endif
         }
 
+#if WINDOWS
         private void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!this.ConfirmClose())
+                e.Cancel = true;
+        }
+#endif
+
+        public override bool ConfirmClose()
         {
             if (Peer.IsServer && Peer.TryGetLobby(out Lobby lobby) && lobby.UserCount > 1)
             {
@@ -125,37 +160,31 @@ namespace AATool.UI.Screens
                 string caption = "Co-op Shutdown Confirmation";
                 string players = clients is 1 ? "1 player" : $"{clients} players";
                 string text = $"You are currently hosting a Co-op lobby with {players} connected! Are you sure you want to quit?";
+
+#if WINDOWS
                 DialogResult result = MessageBox.Show(this.Form, text, caption,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Exclamation);
 
-                if (result is DialogResult.Yes)
-                    Peer.StopInstance();
-                else
-                    e.Cancel = true;
+                if (result is not DialogResult.Yes)
+                    return false;
+#else
+                if (!LinuxRuntime.Confirm(caption, text))
+                    return false;
+#endif
+
+                Peer.StopInstance();
             }
 
-            //remember main window position
             if (Config.Main.StartupArrangement == WindowSnap.Remember)
             {
-                Config.Main.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
+                Config.Main.LastWindowPosition.Set(this.GetWindowPosition());
                 Config.Main.TrySave();
             }
 
-            Uuid mainPlayer = Tracker.GetMainPlayer();
-            if (mainPlayer != Uuid.Empty)
-            {
-                Config.Tracking.LastUuid.Set(mainPlayer);
-
-                //remember last main player
-                if (Player.TryGetName(mainPlayer, out string name))
-                {
-                    Config.Tracking.LastPlayer.Set(name);
-                    Config.Tracking.TrySave();
-                }
-            }
+            this.RememberMainPlayer();
+            return true;
         }
-
         public override string GetCurrentView()
         {
             string view = Tracker.Category.ViewName;
@@ -286,23 +315,29 @@ namespace AATool.UI.Screens
             this.UpdateShortcuts();
 
             //keep settings menu version up to date
+#if WINDOWS
             if (Tracker.ObjectivesChanged || Peer.StateChanged)
                 Settings?.InvalidateSettings();
 
             if (Config.Overlay.Width.Changed)
                 Settings?.UpdateOverlayWidth();
+#endif
 
             if (Config.Main.AlwaysOnTop.Changed)
-                this.Form.TopMost = Config.Main.AlwaysOnTop;
+                this.SetTopMost(Config.Main.AlwaysOnTop);
 
             _= Tracker.GetMainPlayer();
             if (Tracker.MainPlayerChanged)
             {
+#if WINDOWS
                 Settings?.UpdateBadgeList();
                 Settings?.UpdateFrameList();
+#endif
             }
 
+#if WINDOWS
             Settings?.UpdateNotesState();
+#endif
 
             if (Config.Main.AppearanceChanged)
             {
@@ -341,7 +376,7 @@ namespace AATool.UI.Screens
                 RenderCache?.Dispose();
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
-            this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
+            this.SetWindowSize(new Point(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale));
 
             //snap window to user's preferred location
             if (!this.Positioned || Config.Main.StartupArrangement.Changed || Config.Main.StartupDisplay.Changed)
@@ -626,7 +661,9 @@ namespace AATool.UI.Screens
             var border = new Color((int)(back.R / 1.25f), (int)(back.G / 1.25f), (int)(back.B / 1.25f), 255);
             if (Config.Main.RainbowMode)
             {
+#if WINDOWS
                 Settings?.UpdateRainbow(back);
+#endif
                 Config.Main.BackColor.Set(back);
                 Config.Main.BorderColor.Set(border);
                 Config.Main.TextColor.Set(Color.Black);

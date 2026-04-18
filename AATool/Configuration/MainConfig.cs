@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using AATool.Data.Categories;
+using AATool.Platform.Linux;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -107,8 +107,12 @@ namespace AATool.Configuration
 
             [JsonIgnore]
             private static bool MonitorSupportsRelaxed =>
-                Screen.PrimaryScreen.Bounds.Width >= 1600
-                && Screen.PrimaryScreen.Bounds.Height >= 900;
+#if WINDOWS
+                System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width >= 1600
+                && System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height >= 900;
+#else
+                LinuxScreen.MonitorSupportsRelaxed;
+#endif
 
             [JsonIgnore] private string[] prideStyles;
 

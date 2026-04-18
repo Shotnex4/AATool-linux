@@ -4,13 +4,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 using AATool.Data.Categories;
 using AATool.Net;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 
 namespace AATool.Graphics
 {
@@ -387,16 +392,24 @@ namespace AATool.Graphics
                 using (FileStream stream = File.Create(path))
                     Atlas.SaveAsPng(stream, Atlas.Width, Atlas.Height);
 
+#if WINDOWS
                 DialogResult result = MessageBox.Show(null,
                     $"The current state of AATool's texture atlas has been saved to the file \"{path}\"." +
                     "Would you like to view the file now?", "Texture Atlas Dumped", MessageBoxButtons.YesNo);
                 if (result is DialogResult.Yes)
                     _ = Process.Start(path);
+#else
+                LinuxRuntime.Report("Texture Atlas Dumped", $"The current state of AATool's texture atlas has been saved to the file \"{path}\".");
+#endif
             }
             catch (Exception e)
             {
+#if WINDOWS
                 MessageBox.Show(null, $"Error saving AATool's texture atlas to file \"{path}\".\n\n" + e.Message,
                     "Texture Atlas Dumped", MessageBoxButtons.OK);
+#else
+                LinuxRuntime.Report("Texture Atlas Dump Error", $"Error saving AATool's texture atlas to file \"{path}\".\n\n{e.Message}");
+#endif
             }
         }
     }

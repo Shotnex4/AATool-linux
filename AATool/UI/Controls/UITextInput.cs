@@ -7,7 +7,9 @@ using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using static System.Net.Mime.MediaTypeNames;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 
 namespace AATool.UI.Controls
 {
@@ -119,7 +121,11 @@ namespace AATool.UI.Controls
         {
             try
             {
+#if WINDOWS
                 System.Windows.Forms.Clipboard.SetText(this.UserInput);
+#else
+                LinuxClipboard.TrySetText(this.UserInput);
+#endif
             }
             catch
             {
@@ -131,7 +137,11 @@ namespace AATool.UI.Controls
         {
             try
             {
+#if WINDOWS
                 System.Windows.Forms.Clipboard.SetText(this.UserInput);
+#else
+                LinuxClipboard.TrySetText(this.UserInput);
+#endif
                 this.UserInput = string.Empty;
                 this.cursor = 0;
                 this.selectedAll = false;
@@ -147,7 +157,11 @@ namespace AATool.UI.Controls
         {
             try
             {
+#if WINDOWS
                 string clipboard = System.Windows.Forms.Clipboard.GetText();
+#else
+                LinuxClipboard.TryGetText(out string clipboard);
+#endif
                 if (this.selectedAll)
                 {
                     this.UserInput = clipboard;

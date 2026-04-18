@@ -22,6 +22,8 @@ namespace AATool.UI.Screens
         public int FormWidth  => this.Form.ClientRectangle.Width;
         public int FormHeight => this.Form.ClientRectangle.Height;
         public bool HasFocus  => this.Form.Focused;
+        public bool IsDisposed => this.Form.IsDisposed;
+        public bool IsVisible => this.Form.Visible;
 
         public abstract Color FrameBackColor();
         public abstract Color FrameBorderColor();
@@ -43,6 +45,12 @@ namespace AATool.UI.Screens
 
         public void Show() => this.Form.Show();
         public void Hide() => this.Form.Hide();
+        public void SetWindowTitle(string title) => this.Form.Text = title ?? string.Empty;
+        public Point GetWindowPosition() => new (this.Form.Location.X, this.Form.Location.Y);
+        public void BringToFront() => this.Form.BringToFront();
+        public void SetTopMost(bool topMost) => this.Form.TopMost = topMost;
+        public void SetVisible(bool visible) => this.Form.Visible = visible;
+        public void Close() => this.Form.Close();
 
         public void SetIcon(string name)
         {
@@ -76,6 +84,11 @@ namespace AATool.UI.Screens
 
         public virtual void Present() => 
             this.Target?.Present();
+
+        public void SetWindowSize(Point point) =>
+            this.Form.ClientSize = new System.Drawing.Size(point.X, point.Y);
+
+        public virtual bool ConfirmClose() => true;
 
         public override void MoveTo(Point point) =>
             this.Form.Location = new System.Drawing.Point(point.X, point.Y);

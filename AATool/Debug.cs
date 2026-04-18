@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AATool
@@ -59,25 +59,20 @@ namespace AATool
             Directory.CreateDirectory(Paths.System.LogsFolder);
             using (StreamWriter stream = File.CreateText(Paths.System.CrashLogFile))
             {
-                var searcher = new ManagementObjectSearcher("select * from Win32_OperatingSystem");
-                foreach (ManagementObject managementObject in searcher.Get())
-                {
-                    if (managementObject["Caption"] != null)
-                        stream.WriteLine("OS: " + managementObject["Caption"].ToString());
-                    if (managementObject["OSArchitecture"] != null)
-                        stream.WriteLine("Architecture: " + managementObject["OSArchitecture"].ToString());
-                    if (managementObject["CSDVersion"] != null)
-                        stream.WriteLine("Service Pack: " + managementObject["CSDVersion"].ToString());
-                }
+                stream.WriteLine("OS: " + RuntimeInformation.OSDescription);
+                stream.WriteLine("Architecture: " + RuntimeInformation.OSArchitecture);
 
                 if (!Directory.Exists("assets"))
                     stream.WriteLine("\"assets\" Folder Missing!!!");
 
-                stream.WriteLine("Exception: " + exception.Message);
-                stream.Write(exception.StackTrace
-                    .Replace("   at ", "\n    at ")
-                    .Replace(") in ", ")\n        in file: ")
-                    .Replace(":line ", "\n        on line: "));
+                if (exception is not null)
+                {
+                    stream.WriteLine("Exception: " + exception.Message);
+                    stream.Write(exception.StackTrace
+                        .Replace("   at ", "\n    at ")
+                        .Replace(") in ", ")\n        in file: ")
+                        .Replace(":line ", "\n        on line: "));
+                }
                 stream.Flush();
             }
         }

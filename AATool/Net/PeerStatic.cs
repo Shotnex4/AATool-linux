@@ -1,9 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using System.Windows.Forms;
 using AATool.Configuration;
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 
 namespace AATool.Net
 {
@@ -46,7 +51,11 @@ namespace AATool.Net
                 string title = "Minecraft Name Formatting Error";
                 string body  = $"The Minecraft name you entered is invalid. Minecraft names must be 3 to 16 characters in length, " +
                     "and only contain: a-Z, 0-9, and \"_\".";
+#if WINDOWS
                 MessageBox.Show(body, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+#else
+                LinuxRuntime.Report(title, body);
+#endif
                 return;
             }
 
@@ -56,7 +65,11 @@ namespace AATool.Net
                 string title = "IP Formatting Error";
                 string body  = $"The IPv4 address you entered is invalid. IPv4 addresses must be in the format x.x.x.x, " +
                     "where each X is a number between 0 and 255.";
+#if WINDOWS
                 MessageBox.Show(body, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+#else
+                LinuxRuntime.Report(title, body);
+#endif
                 return;
             }
 
@@ -67,7 +80,11 @@ namespace AATool.Net
                 string body  = $"The port number you entered is invalid. Ports must be a number between 0 and 65535." +
                     "\n\nThe default and recommended port for this application is 25562.";
 
+#if WINDOWS
                 MessageBox.Show(body, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+#else
+                LinuxRuntime.Report(title, body);
+#endif
                 return;
             }
 
@@ -81,6 +98,7 @@ namespace AATool.Net
                     "so unwanted parties may be able to join the lobby." +
                     "\n\nDo you still want to start hosting unprotected?";
 
+#if WINDOWS
                 DialogResult result = MessageBox.Show(null, body, title, 
                     MessageBoxButtons.OKCancel, 
                     MessageBoxIcon.Warning, 
@@ -88,6 +106,10 @@ namespace AATool.Net
 
                 if (result is not DialogResult.OK)
                     return;
+#else
+                if (!LinuxRuntime.Confirm(title, body))
+                    return;
+#endif
             }
 
             //start peer instance as client or server without blocking main thread   

@@ -6,6 +6,9 @@ using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Graphics;
 using AATool.Net;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 using AATool.Saves;
 using AATool.UI.Screens;
 using AATool.Utilities;
@@ -290,6 +293,7 @@ namespace AATool.UI.Controls
                     if (count < 1)
                         return;
 
+#if WINDOWS
                     System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(
                     "You are about to clear all currently highlighted (red) blocks. Are you sure you want to perform this action?",
                     $"Clear {count} highlighted blocks",
@@ -301,6 +305,13 @@ namespace AATool.UI.Controls
                         ab.ClearHighlighted();
                         ab.SaveChecklist();
                     }
+#else
+                    if (LinuxRuntime.Confirm("Clear highlighted blocks", $"You are about to clear {count} highlighted blocks."))
+                    {
+                        ab.ClearHighlighted();
+                        ab.SaveChecklist();
+                    }
+#endif
                 }
                 else if (sender.Name is "clear_blocks_confirmed")
                 {
@@ -308,6 +319,7 @@ namespace AATool.UI.Controls
                     if (count < 1)
                         return;
 
+#if WINDOWS
                     System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(
                     "You are about to clear all currently confirmed (green) blocks. You'll have to manually re-confirm them all after making sure they've been placed at your central location. Are you sure you want to perform this action?",
                     $"Clear {count} confirmed blocks",
@@ -319,6 +331,13 @@ namespace AATool.UI.Controls
                         ab.ClearConfirmed();
                         ab.SaveChecklist();
                     }
+#else
+                    if (LinuxRuntime.Confirm("Clear confirmed blocks", $"You are about to clear {count} confirmed blocks."))
+                    {
+                        ab.ClearConfirmed();
+                        ab.SaveChecklist();
+                    }
+#endif
                 }
 
             }

@@ -1,8 +1,13 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using AATool.Net.Requests;
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 
 namespace AATool.Utilities
 {
@@ -14,9 +19,13 @@ namespace AATool.Utilities
 
         public static void RunAAUpdate(int exitCode)
         {
+#if WINDOWS
             //start update executable with "return to AATool after" flag
             Process.Start(Paths.System.UpdateExecutable, "-r");
             Environment.Exit(exitCode);
+#else
+            LinuxRuntime.ReportUpdate("Updates are available, but automatic updating is not supported on Linux yet.");
+#endif
         }
 
         public static void CheckAsync(bool userTriggered = false)
@@ -42,14 +51,22 @@ namespace AATool.Utilities
             else if (Main.IsBeta)
             {
                 //inform user that betas don't auto-update until release and release isn't out yet
+#if WINDOWS
                 MessageBox.Show($"You are currently running {Main.FullTitle}. Betas do not recieve automatic updates until official release.",
                     "Official Release Not Out Yet");
+#else
+                LinuxRuntime.ReportUpdate($"You are currently running {Main.FullTitle}. Betas do not receive automatic updates until official release.");
+#endif
             }
             else
             {
                 //inform user they're up-to-date
+#if WINDOWS
                 MessageBox.Show($"You already have the lastest version ({Main.Version}) of CTM's AATool.", 
                     "No Updates Available");
+#else
+                LinuxRuntime.ReportUpdate($"You already have the latest version ({Main.Version}) of CTM's AATool.");
+#endif
             }
         }
     }

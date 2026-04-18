@@ -93,6 +93,19 @@ namespace AATool.Configuration
                 };
                 setting?.Set(value);
             }
+
+            protected override void MigrateDepricatedConfigs()
+            {
+                if (this.Source == TrackerSource.ActiveInstance && string.IsNullOrWhiteSpace(this.CustomSavesPath))
+                    this.CustomSavesPath.Set(Paths.Saves.DefaultAppDataSavesPath);
+
+                if (!string.IsNullOrWhiteSpace(this.CustomSavesPath))
+                {
+                    string normalized = Paths.Saves.ExpandPath(this.CustomSavesPath.Value);
+                    if (normalized != this.CustomSavesPath.Value)
+                        this.CustomSavesPath.Set(normalized);
+                }
+            }
         }
     }
 }

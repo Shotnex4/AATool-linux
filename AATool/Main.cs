@@ -5,17 +5,22 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data;
 using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 using AATool.Saves;
 using AATool.UI.Screens;
 using AATool.Utilities;
+#if WINDOWS
+using System.Windows.Forms;
 using AATool.Winforms.Forms;
+#endif
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -58,9 +63,15 @@ namespace AATool
         public static GraphicsDevice Device => GraphicsManager?.GraphicsDevice;
 
         public static UIMainScreen PrimaryScreen { get; private set; }
+#if WINDOWS
         public static UIOverlayScreen OverlayScreen { get; private set; }
+#else
+        public static UIScreen OverlayScreen => null;
+#endif
         public static Dictionary<Type, UIScreen> SecondaryScreens { get; private set; }
+#if WINDOWS
         public static FNotes NotesWindow { get; private set; }
+#endif
 
         public static bool IsBeta => FullTitle.ToLower().Contains("beta");
         public static bool IsModded => !string.IsNullOrEmpty(ModderName);
@@ -120,9 +131,11 @@ namespace AATool
             //instantiate screens
             SecondaryScreens = new ();
             PrimaryScreen = new UIMainScreen(this);
+#if WINDOWS
             OverlayScreen = new UIOverlayScreen(this);
             this.AddScreen(OverlayScreen);
-            PrimaryScreen.Form.BringToFront();
+#endif
+            PrimaryScreen.BringToFront();
 
             base.Initialize();
         }
@@ -147,7 +160,11 @@ namespace AATool
             if (UpdateRequest.IsDone && !UpdateRequest.Suppress)
             {
                 if (this.announceUpdate || UpdateRequest.UserInitiated || UpdateRequest.UpdatesAreAvailable())
+#if WINDOWS
                     this.ShowUpdateScreen();
+#else
+                    this.LogUpdateAvailability();
+#endif
             }
 
             //update each screen
@@ -156,6 +173,7 @@ namespace AATool
                 screen.UpdateRecursive(this.Time);
 
             //update notes screen
+#if WINDOWS
             if (Config.Notes.Enabled)
             {
                 if (NotesWindow is null || NotesWindow.IsDisposed)
@@ -173,6 +191,7 @@ namespace AATool
                 NotesWindow.Hiding = true;
                 NotesWindow.Close();
             }
+#endif
 
             //update window title
             if (Config.Main.FpsCap.Changed)
@@ -231,12 +250,35 @@ namespace AATool
 
         private void ShowUpdateScreen()
         {
+#if WINDOWS
             this.AddScreen(new UIUpdateScreen(this, this.announceUpdate));
+            UpdateRequest.Suppress = true;
+            UpdateRequest.UserInitiated = false;
+#endif
+        }
+
+        private void LogUpdateAvailability()
+        {
+#if LINUX
+            if (UpdateRequest.UpdatesAreAvailable())
+            {
+                string message = $"Update available: AATool {UpdateRequest.LatestVersion} - {UpdateRequest.LatestTitle}";
+                LinuxRuntime.ReportUpdate(message);
+            }
+#endif
             UpdateRequest.Suppress = true;
             UpdateRequest.UserInitiated = false;
         }
 
         private void AppendTitle(string text) => FullTitle += $"   ｜   {text}";
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+#if LINUX
+            PrimaryScreen?.ConfirmClose();
+#endif
+            base.OnExiting(sender, args);
+        }
 
         private void UpdateTitle()
         {
@@ -294,13 +336,14 @@ namespace AATool
 
             //assign title to window
             if (PrimaryScreen is not null)
-                PrimaryScreen.Form.Text = "  " + FullTitle;
+                PrimaryScreen.SetWindowTitle("  " + FullTitle);
         }
 
         public static void QuitBecause(string reason, Exception exception = null)
         {
             //show user a message and quit if for some reason the program fails to load properly
             string caption = "Missing Assets";
+#if WINDOWS
             if (File.Exists("AAUpdate.exe"))
             {
                 string message = $"One or more required assets failed to load!\n{reason}\n\nWould you like to repair your installation?";
@@ -319,6 +362,12 @@ namespace AATool
                 if (result is DialogResult.Yes)
                     _ = Process.Start(Paths.Web.LatestRelease);
             }
+#else
+            string message = $"One or more required assets failed to load! {reason}";
+            if (exception is not null)
+                message += $"\n\n{exception.GetType()}:{exception.StackTrace}";
+            LinuxRuntime.Report(caption, message);
+#endif
         }
     }
 }

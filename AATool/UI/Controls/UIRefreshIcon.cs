@@ -2,6 +2,9 @@
 using AATool.Configuration;
 using AATool.Graphics;
 using AATool.Net;
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 using AATool.Saves;
 using AATool.UI.Screens;
 using AATool.Utilities;
@@ -74,14 +77,21 @@ namespace AATool.UI.Controls
 
         private void PromptClearManualChecklist()
         {
+            bool confirmed;
+#if WINDOWS
             System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(
                 "You are about to clear all manually checked Advancements and sub-criteria. Are you sure?",
                 "Clear manually checked items",
                 System.Windows.Forms.MessageBoxButtons.OKCancel,
                 System.Windows.Forms.MessageBoxIcon.Warning
             );
+            confirmed = result is System.Windows.Forms.DialogResult.OK;
+#else
+            confirmed = LinuxRuntime.Confirm("Clear manually checked items",
+                "You are about to clear all manually checked Advancements and sub-criteria.");
+#endif
 
-            if (result is System.Windows.Forms.DialogResult.OK)
+            if (confirmed)
             {
                 (this.Root() as UIMainScreen).checklist.Clear();
             }

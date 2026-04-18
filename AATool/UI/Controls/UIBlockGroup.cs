@@ -84,7 +84,7 @@ namespace AATool.UI.Controls
             Point cursor = Input.Cursor(this.Root());
 
             //optimization, skip almost all unnecessary block hover checks
-            if (!this.Bounds.Contains(cursor) || !this.Root().Form.Focused)
+            if (!this.Bounds.Contains(cursor) || !this.Root().HasFocus)
                 return;
 
             foreach (UIBlockTile tile in this.tiles)

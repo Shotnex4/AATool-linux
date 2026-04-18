@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using AATool.Data.Speedrunning;
 using AATool.Net;
 using AATool.Net.Requests;
-using AATool.Winforms.Controls;
 
 namespace AATool.Data
 {

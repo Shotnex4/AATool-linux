@@ -9,7 +9,6 @@ using AATool.Net.Requests;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using SharpDX.Win32;
 
 namespace AATool.UI.Controls
 {

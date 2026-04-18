@@ -366,14 +366,14 @@ namespace AATool
         {
             if (!string.IsNullOrEmpty(World.FullName))
             {
-                string advancements = Path.Combine(World.FullName, "advancements\\");
+                string advancements = Path.Combine(World.FullName, "advancements");
                 if (!AdvancementsWatcher.EnableRaisingEvents && Directory.Exists(advancements))
                 {
                     AdvancementsWatcher.Path = advancements;
                     AdvancementsWatcher.EnableRaisingEvents = true;
                 }
 
-                string statistics = Path.Combine(World.FullName, "stats\\");
+                string statistics = Path.Combine(World.FullName, "stats");
                 if (!StatisticsWatcher.EnableRaisingEvents && Directory.Exists(statistics))
                 {
                     StatisticsWatcher.Path = statistics;

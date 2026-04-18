@@ -4,7 +4,6 @@ using AATool.Configuration;
 using AATool.Graphics;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AATool.UI.Controls
 {

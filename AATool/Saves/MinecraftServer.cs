@@ -368,7 +368,7 @@ namespace AATool.Saves
 
                 //get new and old file lists
                 IList<FileInfo> localFiles = GetFiles(localPath);
-                IList<SftpFile> remoteFiles = sftp.ListDirectory(remotePath).ToList();
+                IList<ISftpFile> remoteFiles = sftp.ListDirectory(remotePath).ToList();
 
                 //sync folder
                 DeleteDepricatedFiles(remoteFiles, localFiles);
@@ -427,13 +427,13 @@ namespace AATool.Saves
             }
         }
 
-        private static void DeleteDepricatedFiles(IList<SftpFile> source, IList<FileInfo> destination)
+        private static void DeleteDepricatedFiles(IList<ISftpFile> source, IList<FileInfo> destination)
         {
             //remove depricated files
             foreach (FileInfo localFile in destination)
             {
                 bool depricated = true;
-                foreach (SftpFile remoteFile in source)
+                foreach (ISftpFile remoteFile in source)
                 {
                     if (remoteFile.Name == localFile.Name)
                     {
@@ -459,17 +459,18 @@ namespace AATool.Saves
             }
         }
 
-        private static void DownloadAll(SftpClient sftp, IEnumerable<SftpFile> files, string downloadFolder)
+        private static void DownloadAll(SftpClient sftp, IEnumerable<ISftpFile> files, string downloadFolder)
         {
             if (!files.Any())
                 return;
 
             //download remote files from server over sftp
             int counter = 1;
-            foreach (SftpFile remoteFile in files)
+            List<ISftpFile> remoteFileList = files.ToList();
+            foreach (ISftpFile remoteFile in remoteFileList)
             {
                 //update percentage
-                CurrentDownloadPercent = (int)(100 * ((double)counter / files.ToList().Count));
+                CurrentDownloadPercent = (int)(100 * ((double)counter / remoteFileList.Count));
                 counter++;
                 if (!remoteFile.IsRegularFile)
                     continue;

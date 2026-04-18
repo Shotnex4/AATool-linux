@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Xna.Framework.Graphics;
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+#if LINUX
+using AATool.Platform.Linux;
+#endif
 
 namespace AATool.Net.Requests
 {
@@ -111,8 +116,12 @@ namespace AATool.Net.Requests
             }
 
             if (UserInitiated)
+#if WINDOWS
                 MessageBox.Show("There was a problem checking for updates! Try again later, and make sure your firewall isn't blocking AATool.", "Couldn't Get Latest Version", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            
+#else
+                LinuxRuntime.Report("Couldn't Get Latest Version", "There was a problem checking for updates! Try again later, and make sure your firewall isn't blocking AATool.");
+#endif
+
             return false;
         }
     }

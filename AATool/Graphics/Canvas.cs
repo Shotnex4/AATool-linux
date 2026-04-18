@@ -222,6 +222,9 @@ namespace AATool.Graphics
             int border = 0, 
             Layer layer = Layer.Main)
         {
+            if (SpriteSheet.Pixel is null || SpriteSheet.Atlas is null)
+                return;
+
             SpriteBatch batch = BatchOf(layer);
             borderColor ??= color;
             if (border > 0 && borderColor != color)

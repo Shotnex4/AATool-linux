@@ -6,6 +6,7 @@ using AATool.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security;
 using static System.Environment;
 
@@ -125,6 +126,20 @@ namespace AATool
         {
             public const string AppDataShortcut = "%AppData%\\Roaming";
             private static readonly string AppDataFolderPath = GetFolderPath(SpecialFolder.ApplicationData);
+            private static readonly string HomeFolderPath = GetFolderPath(SpecialFolder.UserProfile);
+
+            public static string ExpandPath(string path)
+            {
+                if (string.IsNullOrWhiteSpace(path))
+                    return path;
+
+                string expanded = path.Replace(AppDataShortcut, AppDataFolderPath)
+                    .Replace("~", HomeFolderPath)
+                    .Replace("\\", Path.DirectorySeparatorChar.ToString())
+                    .Replace("/", Path.DirectorySeparatorChar.ToString());
+
+                return Path.GetFullPath(expanded);
+            }
 
             public static string CurrentFolder()
             {
@@ -132,8 +147,8 @@ namespace AATool
                     return System.SftpWorldsFolder;
 
                 return Tracker.Source is TrackerSource.CustomSavesPath
-                    ? Config.Tracking.CustomSavesPath.Value.Replace(AppDataShortcut, AppDataFolderPath)
-                    : ActiveInstance.SavesPath;
+                    ? ExpandPath(Config.Tracking.CustomSavesPath.Value)
+                    : string.IsNullOrWhiteSpace(ActiveInstance.SavesPath) ? DefaultAppDataSavesPath : ActiveInstance.SavesPath;
             }
 
             public static string CurrentPracticeSavesFolder()
@@ -147,7 +162,7 @@ namespace AATool
             }
 
             public static string DefaultAppDataSavesPath => Path.Combine(
-                GetFolderPath(SpecialFolder.ApplicationData),
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? GetFolderPath(SpecialFolder.ApplicationData) : HomeFolderPath,
                 ".minecraft",
                 "saves");
 

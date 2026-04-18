@@ -7,8 +7,6 @@ using AATool.Net;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using AATool.Winforms.Controls;
-using System.Windows.Forms;
 
 namespace AATool.UI.Controls
 {

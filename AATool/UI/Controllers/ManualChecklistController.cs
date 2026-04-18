@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Objectives;
 using AATool.Data.Progress;
