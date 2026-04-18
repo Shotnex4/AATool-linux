@@ -1,6 +1,8 @@
 # CTM's AATool ➔ [Download Here!](https://github.com/DarwinBaker/AATool/releases/latest)
 # Setup Guide ➔ [Watch Here!](https://www.youtube.com/watch?v=Oc9Uw9M_Yho)
 
+Linux preview for Arch/Hyprland users: see `info/linux-arch.md`.
+
 ![](info/preview_main.png)
 ![](info/preview_all_blocks.png)
 ![](info/preview_overlay.gif)

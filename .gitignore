@@ -340,6 +340,7 @@ ASALocalRun/
 healthchecksdb
 /compiled/temp
 /compiled
+/dist
 
 AATool/compiled
 assets/cache
