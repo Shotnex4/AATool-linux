@@ -1,15 +1,14 @@
-# Linux (Arch / Hyprland)
+# Linux (Arch)
 
 This guide is for players using this Arch Linux focused fork of AATool.
 
-The goal of this fork is simple: keep the tracker usable on Arch Linux and Hyprland without asking players to install a specific .NET runtime first.
+The goal of this fork is simple: keep the tracker usable on Arch Linux without asking players to install a specific .NET runtime first.
 
 ## What This Fork Is
 
 This is an unofficial fork of AATool aimed at Linux players, especially:
 
 - Arch Linux users
-- Hyprland users
 
 The original AATool project was built for Windows. This fork keeps the tracker working on Linux as much as possible, but some Windows-only parts are still limited.
 
@@ -39,6 +38,12 @@ If you just want the tracker to work, the most reliable Linux setup is usually:
 
 Use the Linux `tar.gz` release for this fork.
 
+To extract it from the terminal, use:
+
+```bash
+tar -xzf AATool-arch-linux-<version>.tar.gz
+```
+
 1. Download the `tar.gz` file.
 2. Extract it anywhere you like.
 3. Open the extracted folder.
@@ -48,36 +53,42 @@ Use the Linux `tar.gz` release for this fork.
 ./run-aatool.sh
 ```
 
-On first launch, AATool creates a writable `config/` folder from `config.defaults/`.
+On first launch, AATool creates a writable `app/config/` folder from `app/config.defaults/`.
 
 ## Folder Layout
 
 Inside the extracted folder the files you might care about are:
 
 - `run-aatool.sh` - the launcher script
-- `config/` - your personal writable config files
-- `logs/` - crash logs and runtime logs
+- `app/` - the actual program folder, including assets, configs, logs, and bundled libraries
+- `README.md` - the main project readme
+- `README-ARCH-LINUX.md` - the Linux-specific player guide
+- `LICENSE.md` - the GPL license text
 
-As a player, the folder you will care about most is `config/`.
+As a player, the folders you will care about most are inside `app/`:
+
+- `app/config/`
+- `app/config.defaults/`
+- `app/logs/`
 
 ## Config Concept
 
 This AATool fork uses two config folders:
 
-- `config.defaults/` contains the shipped default settings
-- `config/` contains your own live settings
+- `app/config.defaults/` contains the shipped default settings
+- `app/config/` contains your own live settings
 
 How this works:
 
-1. The app ships with default config templates in `config.defaults/`
-2. On first launch, AATool creates matching files in `config/`
-3. From that point on, you should edit the files in `config/`, not `config.defaults/`
+1. The app ships with default config templates in `app/config.defaults/`
+2. On first launch, AATool creates matching files in `app/config/`
+3. From that point on, you should edit the files in `app/config/`, not `app/config.defaults/`
 
 If a config file gets broken, the easiest fix is usually:
 
 1. close AATool
-2. delete the broken file from `config/`
-3. launch AATool again so it recreates it from `config.defaults/`
+2. delete the broken file from `app/config/`
+3. launch AATool again so it recreates it from `app/config.defaults/`
 
 ## Safe Editing Tips
 
@@ -90,7 +101,7 @@ If a config file gets broken, the easiest fix is usually:
 
 The most important file for most players is:
 
-- `config/config_tracking.json`
+- `app/config/config_tracking.json`
 
 The most important setting in that file is `Source`.
 
@@ -121,7 +132,7 @@ For most Linux players:
 
 This section explains the config files in plain player language.
 
-### `config_tracking.json`
+### `app/config/config_tracking.json`
 
 This file controls what world is tracked and how progress is interpreted.
 
@@ -173,7 +184,7 @@ This file controls what world is tracked and how progress is interpreted.
   - mostly internal or remembered values
   - most players should leave these alone
 
-### `config_main.json`
+### `app/config/config_main.json`
 
 This file controls the main tracker window appearance and behavior.
 
@@ -255,7 +266,7 @@ This file controls the main tracker window appearance and behavior.
 - `CompactMode`
   - legacy migration setting, usually not something players need to touch
 
-### `config_overlay.json`
+### `app/config/config_overlay.json`
 
 This file controls the stream/overlay tracker view. On Linux this feature is still more limited than on Windows.
 
@@ -314,7 +325,7 @@ This file controls the stream/overlay tracker view. On Linux this feature is sti
 - `StartupArrangement`, `LastWindowPosition`, `StartupDisplay`
   - overlay window placement settings
 
-### `config_network.json`
+### `app/config/config_network.json`
 
 This file is for co-op/network identity and connection settings.
 
@@ -344,7 +355,7 @@ This file is for co-op/network identity and connection settings.
 
 Most solo players can ignore this file unless they want co-op features.
 
-### `config_notes.json`
+### `app/config/config_notes.json`
 
 This file stores settings for the notes feature.
 
@@ -359,7 +370,7 @@ This file stores settings for the notes feature.
 
 On Linux this feature is more limited than in the original Windows version.
 
-### `config_sftp.json`
+### `app/config/config_sftp.json`
 
 This file is only needed for remote server tracking over SFTP.
 
@@ -431,7 +442,7 @@ Use this when you just want AATool to watch your normal Minecraft saves folder.
 
 ### AATool starts but does not track any world
 
-- Check `config/config_tracking.json`
+- Check `app/config/config_tracking.json`
 - Make sure `Source` matches the way you want to track
 - Make sure `CustomSavesPath` or `CustomWorldPath` points to a real folder
 - If using PrismLauncher, prefer `Source = 1` with the exact instance saves folder

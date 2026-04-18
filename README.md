@@ -3,7 +3,7 @@
 
 ## Arch Linux Fork Notice
 
-This repository is an unofficial fork of AATool focused on getting the tracker working well on Arch Linux, especially for Hyprland users.
+This repository is an unofficial fork of AATool focused on getting the tracker working well on Arch Linux.
 
 If you are here for the Linux version, start with the player guide in [info/linux-arch.md](info/linux-arch.md).
 
