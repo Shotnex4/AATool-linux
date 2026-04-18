@@ -21,6 +21,8 @@ BUNDLE_NAME="AATool-arch-linux-$VERSION-$RID"
 BUNDLE_DIR="$ROOT_DIR/dist/$BUNDLE_NAME"
 APP_DIR="$BUNDLE_DIR/app"
 ARCHIVE_PATH="$ROOT_DIR/dist/$BUNDLE_NAME.tar.gz"
+ICON_SOURCE="$ROOT_DIR/AATool/assets/icons/aatool.ico"
+ICON_OUTPUT="$BUNDLE_DIR/AATool.png"
 
 rm -rf "$PUBLISH_DIR" "$BUNDLE_DIR" "$ARCHIVE_PATH"
 mkdir -p "$PUBLISH_DIR" "$APP_DIR"
@@ -54,6 +56,7 @@ cp -r "$PUBLISH_DIR/." "$APP_DIR/"
 cp "$ROOT_DIR/README.md" "$BUNDLE_DIR/README.md"
 cp "$ROOT_DIR/LICENSE.md" "$BUNDLE_DIR/LICENSE.md"
 cp "$ROOT_DIR/info/linux-arch.md" "$BUNDLE_DIR/README-ARCH-LINUX.md"
+magick "$ICON_SOURCE[0]" -background none -resize 256x256 "$ICON_OUTPUT"
 
 tar -C "$ROOT_DIR/dist" -czf "$ARCHIVE_PATH" "$BUNDLE_NAME"
 
