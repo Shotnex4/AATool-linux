@@ -224,6 +224,7 @@ namespace AATool
         public static void FileSystemChanged(object sender, FileSystemEventArgs e)
         {
             FileSystemEventRaised = true;
+            FilesystemEventDebounce.Reset();
         }
 
         public static string GetStatusText()
@@ -352,7 +353,7 @@ namespace AATool
                 {
                     UpdateCurrentWorld();
                     ReadLocalFiles(time);
-                    FilesystemEventDebounce.Reset();
+                    FileSystemEventRaised = false;
                 }
                 PreviousActiveId = ActiveInstance.LastActiveId;
                 UpdateFileSystemWatchers();
@@ -380,7 +381,6 @@ namespace AATool
                     StatisticsWatcher.EnableRaisingEvents = true;
                 }
             }
-            FileSystemEventRaised = false;
         }
 
         private static void UpdateCurrentWorld()
